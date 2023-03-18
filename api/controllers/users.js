@@ -27,13 +27,13 @@ const loginUser = async (req, res) => {
     const user = await userModel.findOne({ username: username }).exec();
 
     if (!user) {
-      return res.json({ response: 'Usuario inexistente.' });
+      return res.status(404).json({ response: 'Usuario inexistente.' });
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if (!isPasswordValid) {
-      return res.json({ response: 'Usuario o contraseña incorrectos.' });
+      return res.status(403).json({ response: 'Usuario o contraseña incorrectos.' });
     }
 
     const token = jwt.sign({ id: user._id }, 'secretodelogeo');
