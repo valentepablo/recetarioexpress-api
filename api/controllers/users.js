@@ -10,9 +10,6 @@ const registerUser = async (req, res) => {
     if (user) {
       return res.status(403).json({ response: 'Este usuario ya se encuentra registrado.' });
     }
-    if (username === '' || password === '') {
-      return res.status(403).json({ response: 'Debes completar los campos requeridos.' });
-    }
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
