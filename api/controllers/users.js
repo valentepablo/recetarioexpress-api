@@ -15,11 +15,14 @@ const registerUser = async (req, res) => {
 
     const newUser = await userModel.create({ username: username, password: hashedPassword });
 
-    const token = jwt.sign({ id: user._id }, 'secretodelogeo');
+    const token = jwt.sign({ id: newUser._id }, 'secretodelogeo');
 
-    res
-      .status(200)
-      .json({ response: 'Usuario registrado exitosamente!', token, userID: newUser._id });
+    res.status(200).json({
+      response: 'Usuario registrado con exito!',
+      userID: newUser._id,
+      username: newUser.username,
+      token: token,
+    });
   } catch (error) {
     res.json(error);
   }
@@ -42,7 +45,7 @@ const loginUser = async (req, res) => {
 
     const token = jwt.sign({ id: user._id }, 'secretodelogeo');
 
-    res.status(200).json({ token, userID: user._id });
+    res.status(200).json({ token, userID: user._id, username });
   } catch (error) {
     res.json(error);
   }
