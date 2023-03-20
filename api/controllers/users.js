@@ -8,17 +8,21 @@ const registerUser = async (req, res) => {
     const user = await userModel.findOne({ username: username }).exec();
 
     if (user) {
-      return res.json({ response: 'Este usuario ya se encuentra registrado.' });
+      return res.status(403).json({ response: 'Este usuario ya se encuentra registrado.' });
     }
     if (username === '' || password === '') {
-      return res.json({ response: 'Debes completar los campos requeridos.' });
+      return res.status(403).json({ response: 'Debes completar los campos requeridos.' });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const newUser = await userModel.create({ username: username, password: hashedPassword });
 
-    res.status(200).json({ response: 'Usuario registrado exitosamente!', user: newUser });
+    const token = jwt.sign({ id: user._id }, 'secretodelogeo');
+
+    res
+      .status(200)
+      .json({ response: 'Usuario registrado exitosamente!', token, userID: newUser._id });
   } catch (error) {
     res.json(error);
   }
