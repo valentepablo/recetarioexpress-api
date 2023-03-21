@@ -13,11 +13,11 @@ const UserSchema = mongoose.Schema({
   savedRecipes: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'recipes',
+      ref: 'Recipe',
     },
   ],
 });
 
-const userModel = mongoose.model('user', UserSchema);
+const userModel = mongoose.model('User', UserSchema);
 
 module.exports = userModel;

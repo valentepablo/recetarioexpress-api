@@ -31,11 +31,11 @@ const RecipeSchema = mongoose.Schema({
   },
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'user',
+    ref: 'User',
     required: true,
   },
 });
 
-const recipeModel = mongoose.model('recipe', RecipeSchema);
+const recipeModel = mongoose.model('Recipe', RecipeSchema);
 
 module.exports = recipeModel;
