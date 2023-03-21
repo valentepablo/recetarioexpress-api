@@ -3,7 +3,9 @@ const userModel = require('../models/Users');
 
 const getRecipes = async (req, res) => {
   try {
-    const recipes = await recipeModel.find({});
+    const recipes = await recipeModel
+      .find({})
+      .populate({ path: 'createdBy', select: ['username'] });
 
     res.status(200).json({ recipes });
   } catch (error) {
