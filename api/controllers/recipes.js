@@ -27,7 +27,10 @@ const createRecipe = async (req, res) => {
 const getSingleRecipe = async (req, res) => {
   try {
     const { id } = req.params;
-    const recipe = await recipeModel.findById(id);
+    const recipe = await recipeModel
+      .findById(id)
+      .populate({ path: 'createdBy', select: 'username' })
+      .exec();
 
     if (recipe === null) {
       return res.status(404).json({ response: 'No se encontró ninguna receta con este ID' });
